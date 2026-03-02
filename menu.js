@@ -1,6 +1,4 @@
 ﻿// /menu.js
-
-
 // Aynı host/portta çalışıyorsan boş bırak.
 // Farklı host/port ise örn: "http://10.158.146.178:5000"
 
@@ -156,6 +154,7 @@ async function init() {
 elQ.addEventListener("input", () => render());
 
 init();
+
 
 
 
