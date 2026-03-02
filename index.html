@@ -1,0 +1,622 @@
+﻿<!doctype html>
+<html lang="tr">
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0e1522">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mobil Adisyon</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --card: #121826;
+            --text: #e6edf3;
+            --muted: #9aa4b2;
+            --b: #223047;
+            --acc: #3b82f6;
+            --ok: #22c55e;
+            --bad: #ef4444
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial
+        }
+
+        .okbtn {
+            background: var(--ok) !important;
+            color: #ffffff !important;
+            font-weight: 900;
+        }
+
+            .okbtn:hover {
+                filter: brightness(1.1);
+            }
+
+        .card.kat {
+            background: #1e293b;
+            border: 1px solid #3b82f6;
+            box-shadow: 0 0 20px rgba(59,130,246,0.15);
+        }
+
+        .belge-toplam-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(34,197,94,.7);
+            background: linear-gradient(180deg,#0f172a,#0b1220);
+            min-width: 92px;
+            box-shadow: 0 0 12px rgba(34,197,94,0.18);
+        }
+
+            .belge-toplam-box b {
+                color: #22c55e;
+                font-size: 15px;
+                letter-spacing: .2px;
+            }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: #0e1522;
+            border-bottom: 1px solid var(--b);
+            padding: 12px 14px;
+            z-index: 10
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 14px
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 8px 0 12px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 10px
+        }
+
+        @media(min-width:720px) {
+            .grid {
+                grid-template-columns: repeat(4,1fr)
+            }
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--b);
+            border-radius: 14px;
+            padding: 12px
+        }
+
+        .tile {
+            cursor: pointer
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .badge {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--b)
+        }
+
+            .badge.ok {
+                border-color: rgba(34,197,94,.5);
+                color: var(--ok)
+            }
+
+            .badge.bad {
+                border-color: rgba(239,68,68,.5);
+                color: var(--bad)
+            }
+
+        .btn {
+            border: 0;
+            border-radius: 12px;
+            padding: 10px 12px;
+            background: var(--acc);
+            color: white;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+            .btn.ghost {
+                background: transparent;
+                border: 1px solid var(--b);
+                color: var(--text);
+                font-weight: 700
+            }
+
+            .btn.bad {
+                background: var(--bad)
+            }
+
+        .hidden {
+            display: none
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .chip {
+            padding: 8px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--b);
+            background: #0b1220;
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 700
+        }
+
+            .chip.active {
+                border-color: var(--acc)
+            }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid var(--b);
+            border-radius: 12px;
+            background: #0b1220
+        }
+
+        .title {
+            font-weight: 800
+        }
+
+        .right {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .qtybtn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: 1px solid var(--b);
+            background: transparent;
+            color: var(--text);
+            font-weight: 900;
+            cursor: pointer
+        }
+
+        .qty {
+            min-width: 28px;
+            text-align: center;
+            font-weight: 900
+        }
+
+        select {
+            background: #0b1220;
+            color: var(--text);
+            border: 1px solid var(--b);
+            border-radius: 12px;
+            padding: 10px
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 16px;
+            transform: translateX(-50%);
+            background: #0e1522;
+            border: 1px solid var(--b);
+            border-radius: 999px;
+            padding: 10px 14px;
+            max-width: 92vw
+        }
+
+        /* Modal overlay */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 9999;
+        }
+
+        .modal {
+            width: min(520px, 96vw);
+            background: linear-gradient(180deg, #0e1522, #0b1220);
+            border: 1px solid var(--b);
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 18px 60px rgba(0,0,0,.55);
+        }
+
+        .modal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(34,48,71,.7);
+        }
+
+        .modal-body {
+            padding: 12px 2px;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+            .modal-body .muted {
+                margin-top: 6px;
+            }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding-top: 10px;
+            border-top: 1px solid rgba(34,48,71,.7);
+        }
+
+        .iconbtn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: 1px solid var(--b);
+            background: transparent;
+            color: var(--text);
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .btn.danger {
+            background: var(--bad) !important;
+            color: #fff !important;
+        }
+
+        .overlay.hidden {
+            display: none !important;
+        }
+
+        @keyframes productFlash {
+            0% {
+                background: #0b1220;
+            }
+
+            40% {
+                background: rgba(34,197,94,.35);
+            }
+
+            100% {
+                background: #0b1220;
+            }
+        }
+
+        .product-flash {
+            animation: productFlash 160ms ease;
+        }
+
+        /* Ortak ikonlu buton */
+        .btn.icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            font-weight: 900;
+            position: relative;
+            transition: transform 80ms ease, box-shadow 80ms ease;
+        }
+
+            .btn.icon:active {
+                transform: translateY(2px) scale(0.97);
+                box-shadow: 0 2px 4px rgba(0,0,0,.35);
+            }
+
+        .btn.icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            font-size: 15px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* Masa Taşı için özel renk */
+        .btn.move {
+            background: linear-gradient(135deg,#06b6d4,#3b82f6);
+            color: #fff;
+        }
+
+        /* Belge İptali */
+        .btn.doccancel {
+            background: linear-gradient(135deg,#f97316,#ef4444);
+            color: #fff;
+        }
+
+        /* Satır İptali */
+        .btn.rowcancel {
+            background: linear-gradient(135deg,#dc2626,#991b1b);
+            color: #fff;
+        }
+
+        /* Sepete Ekle */
+        .btn.sendcart {
+            padding: 14px 16px;
+            font-size: 16px;
+            min-width: 170px;
+        }
+
+        /* Ödeme Al */
+        .btn.paybtn {
+            background: linear-gradient(135deg,#22c55e,#16a34a);
+            color: #fff;
+        }
+
+        /* Açık Adisyonlar kartını daha kompakt yap */
+        .card.adisyon-card {
+            padding: 10px;
+        }
+
+            .card.adisyon-card .row {
+                gap: 8px;
+            }
+
+        /* Belge toplam kutusu */
+        .belge-toplam-box {
+            min-width: 150px;
+            padding: 10px 14px;
+            border: 2px solid rgba(34,197,94,.95);
+            box-shadow: 0 0 18px rgba(34,197,94,0.28);
+        }
+
+        #belgeToplamTutar {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: .3px;
+        }
+
+        #fisSelect {
+            padding: 8px 10px;
+        }
+
+        /* ✅ ORTA PANEL: Satır İptali + Masa Taşı (mevcut temayı bozmadan) */
+        .mid-actions {
+            margin-top: 8px;
+        }
+
+            .mid-actions .action-panel {
+                background: linear-gradient(180deg, #0e1522, #0b1220);
+                border: 1px solid var(--b);
+                border-radius: 16px;
+                padding: 12px;
+                box-shadow: 0 12px 35px rgba(0,0,0,.35);
+            }
+
+            .mid-actions .action-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+        @media (max-width: 520px) {
+            .mid-actions .action-grid {
+                grid-template-columns: 1fr 1fr 1fr
+            
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ustBar">
+        <div class="ustSol">
+            <div class="ustBaslik"></div>
+        </div>
+
+        <div class="ustSag">
+            <button id="btnRaporlar" class="topBtn" style="background:#f59e0b;">
+                <span class="ico">📊</span> Raporlar
+            </button>
+            <button id="btnRefresh" class="topBtn refreshBtn" type="button">
+                <span class="ico">⟳</span>
+                <span class="txt">Yenile</span>
+            </button>
+
+            <button id="btnExit" class="topBtn exitBtn" type="button">
+                <span class="ico">✕</span>
+                <span class="txt">Kapat</span>
+            </button>
+        </div>
+    </div>
+
+    <header>
+        <div class="row">
+            <b>Mobil Adisyon</b>
+            <span id="status" class="muted">Yükleniyor…</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="viewLogin" class="hidden">
+            <div class="login-wrap">
+                <div class="card login-card">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                        <b style="font-size:18px">Giriş</b>
+                        <span class="muted" id="loginHint">Yetkilendirme gerekli</span>
+                    </div>
+
+                    <div style="margin-top:12px" class="login-form">
+                        <label class="muted" for="inpUser">Kullanıcı</label>
+                        <input id="inpUser" type="text" autocomplete="username" placeholder="kullanıcı adı" />
+
+                        <label class="muted" for="inpPass" style="margin-top:10px">Şifre</label>
+                        <input id="inpPass" type="password" autocomplete="current-password" placeholder="••••••••" />
+
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px">
+                            <label style="display:flex;align-items:center;gap:8px" class="muted">
+                                <input id="chkRemember" type="checkbox" checked />
+                                Beni hatırla
+                            </label>
+                            <button id="btnLogin" class="btn icon" type="button">🔐 Giriş Yap</button>
+                        </div>
+
+                        <div id="loginErr" class="muted" style="margin-top:10px;color:#ef4444;display:none"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- MASALAR -->
+        <section id="viewMasalar">
+            <h1>Masalar</h1>
+            <div id="masalar" class="grid"></div>
+        </section>
+
+        <!-- MASA İÇİ -->
+        <section id="viewMasa" class="hidden">
+            <div class="row">
+                <button id="btnBack" class="btn ghost">← Masalar</button>
+                <div>
+                    <div id="masaAdi" style="font-weight:900"></div>
+                    <div id="masaMeta" class="muted"></div>
+                </div>
+            </div>
+
+            <div class="card adisyon-card" style="margin-top:12px">
+                <div class="row">
+                    <b>Açık Adisyonlar</b>
+                    <button id="btnYenile" class="btn ghost">Yenile</button>
+                </div>
+
+                <div class="muted" style="margin-top:8px">Fiş seç: ödeme için gerekli</div>
+
+                <!-- 1. satır: fiş + toplam -->
+                <div class="row" style="margin-top:8px;gap:10px;align-items:stretch">
+                    <select id="fisSelect" style="flex:1"></select>
+
+                    <div id="belgeToplamBox" class="belge-toplam-box">
+                        <div class="muted" style="line-height:1">Belge Tutarı</div>
+                        <b id="belgeToplamTutar">0 ₺</b>
+                    </div>
+                </div>
+
+                <!-- 2. satır: ödeme al (toplamın tam altında, sağda) -->
+                <div class="row" style="margin-top:8px;justify-content:flex-end">
+                    <button id="btnOdeme" class="btn icon paybtn" style="min-width:160px">
+                        💳 Ödeme Al
+                    </button>
+                </div>
+
+                <div id="adisyonKalemler" class="list" style="margin-top:10px"></div>
+            </div>
+
+            <!-- ✅ Satır İptali + Masa Taşı: ortada panel içinde -->
+            <div class="mid-actions">
+                <div class="card action-panel">
+                    <div class="action-grid">
+                        <button id="btnSatirIptal" class="btn icon rowcancel" disabled>
+                            ⛔ Satır İptali
+                        </button>
+
+                        <button id="btnMasaTasi" class="btn icon move">
+                            🔁 Masa Taşı
+                        </button>
+                        <button id="btnYazdir" class="btn icon" style="background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff">
+                            🖨️ Yazdır
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <b>Sepet (Gönderilecek)</b>
+
+                <div id="sepet" class="list" style="margin-top:10px">
+                    <div class="muted">Sepet boş. Ürünlerden + ile ekle.</div>
+                </div>
+
+                <div class="row" style="margin-top:10px; align-items:stretch">
+                    <b id="sepetToplam" style="display:flex;align-items:center">0</b>
+                    <button id="btnGonder" class="btn icon sendcart" style="flex:1; min-width:180px">
+                        🛒 Sepete Ekle
+                    </button>
+                </div>
+            </div>
+
+            <div class="card kat">
+                <b>Kategoriler</b>
+                <div id="kategoriler" class="chips" style="margin-top:10px"></div>
+            </div>
+
+            <div class="card">
+                <div class="row">
+                    <b>Ürünler</b>
+                    <span id="urunInfo" class="muted"></span>
+                </div>
+                <div id="urunler" class="list" style="margin-top:10px"></div>
+            </div>
+
+        </section>
+
+        <div id="toast" class="toast hidden"></div>
+
+        <!-- ONAY MODAL -->
+        <div id="confirmOverlay" class="overlay hidden">
+            <div class="modal">
+                <div class="modal-head">
+                    <b id="confirmTitle">Onay</b>
+                    <button id="confirmClose" class="iconbtn" aria-label="Kapat">✕</button>
+                </div>
+
+                <div id="confirmBody" class="modal-body"></div>
+
+                <div class="modal-actions">
+                    <button id="confirmCancel" class="btn ghost">Vazgeç</button>
+                    <button id="confirmOk" class="btn">Onayla</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/js/main.js?v=10"></script>
+</body>
+</html>
