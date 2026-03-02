@@ -10,7 +10,7 @@ const elQ = document.getElementById("q");
 const qs = new URLSearchParams(location.search);
 
 // QR ile gelen API adresi (yoksa bulunduğu origin)
-const API_BASE = (qs.get("api") || window.location.origin).replace(/\/$/, "");
+
 
 // QR ile gelen cafe adı
 const cafeName = qs.get("name") || "Simitçi Usta Cafe Menü";
@@ -153,6 +153,7 @@ async function init() {
 elQ.addEventListener("input", () => render());
 
 init();
+
 
 
 
