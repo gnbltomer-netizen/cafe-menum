@@ -8,6 +8,9 @@ const elMenu = document.getElementById("menu");
 const elInfo = document.getElementById("info");
 const elQ = document.getElementById("q");
 const qs = new URLSearchParams(location.search);
+const API_BASE =
+    (qs.get("api") || https://drill-toys-iii-obituaries.trycloudflare.com")
+        .replace(/\/$/, "");
 
 // QR ile gelen API adresi (yoksa bulunduğu origin)
 
@@ -153,6 +156,7 @@ async function init() {
 elQ.addEventListener("input", () => render());
 
 init();
+
 
 
 
