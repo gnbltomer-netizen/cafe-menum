@@ -1,6 +1,6 @@
 ﻿// /menu.js
 
-const API_BASE = "https://convengeance-template-pat-eval.trycloudflare.com";
+const BASE = window.location.origin;
 // Aynı host/portta çalışıyorsan boş bırak.
 // Farklı host/port ise örn: "http://10.158.146.178:5000"
 
