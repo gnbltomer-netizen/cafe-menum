@@ -1,4 +1,5 @@
-﻿// /menu.js
+// /menu.js
+
 // Aynı host/portta çalışıyorsan boş bırak.
 // Farklı host/port ise örn: "http://10.158.146.178:5000"
 
@@ -8,10 +9,9 @@ const elQ = document.getElementById("q");
 const qs = new URLSearchParams(location.search);
 const API_BASE =
     (qs.get("api") || window.location.origin)
-        .replace(/\/$/, "");
-
+  .replace(/\/$/, "");
 // QR ile gelen API adresi (yoksa bulunduğu origin)
-
+/*const API_BASE = (qs.get("api") || window.location.origin).replace(/\/$/, "");*/
 
 // QR ile gelen cafe adı
 const cafeName = qs.get("name") || "Simitçi Usta Cafe Menü";
@@ -154,15 +154,3 @@ async function init() {
 elQ.addEventListener("input", () => render());
 
 init();
-
-
-
-
-
-
-
-
-
-
-
-
