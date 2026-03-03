@@ -7,7 +7,7 @@ const elInfo = document.getElementById("info");
 const elQ = document.getElementById("q");
 const qs = new URLSearchParams(location.search);
 const API_BASE =
-    (qs.get("api") || "https://receptors-tar-quantities-clearly.trycloudflare.com")
+    (qs.get("api") || "https://refer-code-availability-indicators.trycloudflare.com")
         .replace(/\/$/, "");
 
 // QR ile gelen API adresi (yoksa bulunduğu origin)
@@ -154,6 +154,7 @@ async function init() {
 elQ.addEventListener("input", () => render());
 
 init();
+
 
 
 
